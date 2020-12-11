@@ -56,7 +56,7 @@ SPAWN_RULES.defaults.archetypes = {
     },
     'ex': {
         x: ()=>random(0,WIDTH-1),
-        y: (b,x)=>b.hemY(b.env.get("jetstream",x,0,b.tick)+random(-75,75)),
+        y: (b,x)=>b.hemY(b.env.get("jetstream",x,0,b.tick)+random(-65,75)),
         pressure: [1000, 1020],
         windSpeed: [15, 35],
         type: EXTROP,
@@ -99,7 +99,7 @@ SPAWN_RULES.defaults.archetypes = {
     },
     's': {
         inherit: 'tc',
-        pressure: 995,
+        pressure: [995,999],
         windSpeed: 45
     },
     'S': {
