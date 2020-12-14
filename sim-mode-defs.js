@@ -32,8 +32,8 @@ ACTIVE_ATTRIBS[SIM_MODE_EXPERIMENTAL] = [
 // ---- Spawn Rules ---- //
 
 function ifJetstreamBound(b,x) {
-    if (Math.round(random(1,12) == 1)) return b.hemY(random(HEIGHT*0.53,HEIGHT*0.65));
-    if (Math.round(random(1,8) == 1)) return b.hemY(random(HEIGHT*0.65,HEIGHT*0.73));
+    if (Math.round(random(1,9) == 1)) return b.hemY(random(HEIGHT*0.63,HEIGHT*0.67));
+    if (Math.round(random(1,9) == 1)) return b.hemY(random(HEIGHT*0.67,HEIGHT*0.78));
     else return b.hemY(b.env.get("jetstream",x,0,b.tick)+random(-75,75));
 }
 
@@ -226,7 +226,7 @@ SPAWN_RULES[SIM_MODE_MEGABLOBS].doSpawn = function(b){
 SPAWN_RULES[SIM_MODE_EXPERIMENTAL].archetypes = {
     'tw': {
         x: ()=>random(0,WIDTH-1),
-        y: (b)=>b.hemY(random(HEIGHT*0.7,HEIGHT*0.9)),
+        y: (b)=>b.hemY(random(HEIGHT*0.7,HEIGHT*0.92)),
         pressure: [1000, 1020],
         windSpeed: [15, 35],
         type: TROPWAVE,
@@ -391,7 +391,7 @@ ENV_DEFS.defaults.LLSteering = {
         let trades = constrain(pow(0.35+h+map(ridging,0,1,-0.1,0.3),2)*3,0,3);
         let tAngle = map(h,0.9,1,511*PI/512,15.75*PI/16); // trades angle
         // noise angle
-        let a = map(u.noise(3),0,1,0,4*TAU);
+        let a = map(u.noise(3),0,1,0,4.1*TAU);
         // noise magnitude
         let m = pow(1.5,map(u.noise(2),4,4,4,4));
 
@@ -415,8 +415,7 @@ ENV_DEFS.defaults.LLSteering = {
         '',
         [4,0.5,170,300,1,3]
     ]
-};
-ENV_DEFS[SIM_MODE_NORMAL].LLSteering = {};
+}
 ENV_DEFS[SIM_MODE_HYPER].LLSteering = {};
 ENV_DEFS[SIM_MODE_WILD].LLSteering = {
     mapFunc: (u,x,y,z)=>{
@@ -437,6 +436,7 @@ ENV_DEFS[SIM_MODE_WILD].LLSteering = {
         return u.vec;
     }
 };
+ENV_DEFS[SIM_MODE_NORMAL].LLSteering = {};
 ENV_DEFS[SIM_MODE_MEGABLOBS].LLSteering = {};
 ENV_DEFS[SIM_MODE_EXPERIMENTAL].LLSteering = {};
 
@@ -467,9 +467,9 @@ ENV_DEFS.defaults.ULSteering = {
         // angle of winds equatorward of jetstream
         let hAngle = map(ridging,-0.3,0.24,-PI/16,-15*PI/16,true);
         let ferrel = 2*jOP*(y<j0?1:0);                                                          // power of winds poleward of jetstream
-        let fAngle = 5*PI/8;                                                                    // angle of winds poleward of jetstream
+        let fAngle = 4.9*PI/8;                                                                    // angle of winds poleward of jetstream
 
-        let a = map(u.noise(0),0,1,0,4*TAU);                                                    // noise angle
+        let a = map(u.noise(0),0,1,0,3.8*TAU);                                                    // noise angle
         m = pow(1.5,map(m,0,1,-8,4))*jOP;                                                       // noise magnitude
 
         // apply noise
@@ -493,7 +493,7 @@ ENV_DEFS.defaults.ULSteering = {
     vector: true,
     magMap: [0,8,0,25],
     modifiers: {
-        hadleyUpperBound: 5
+        hadleyUpperBound: 4
     },
     noiseChannels: [
         [4,0.5,180,300,1,2],
@@ -744,6 +744,7 @@ ENV_DEFS.defaults.moisture = {
     version: 0,
     mapFunc: (u,x,y,z)=>{
         let v = u.noise(0);
+        v = v*1.1;
         let s = seasonalSine(z);
         let l = land.get(x,u.basin.hemY(y));
         let pm = u.modifiers.polarMoisture;
@@ -818,8 +819,8 @@ STORM_ALGORITHM.defaults.steering = function(sys,vec,u){
     let ll = u.f("LLSteering");
     let ul = u.f("ULSteering");
     let d = sqrt(sys.depth);
-    let x = lerp(ll.x,ul.x,d);       // Deeper systems follow upper-level steering more and lower-level steering less
-    let y = lerp(ll.y,ul.y,d);
+    let x = lerp(ll.x,ul.x,d)*0.9;       // Deeper systems follow upper-level steering more and lower-level steering less
+    let y = lerp(ll.y,ul.y,d)*0.9;
     vec.set(x,y);
 };
 
@@ -845,12 +846,12 @@ STORM_ALGORITHM.defaults.core = function(sys,u){
     let nontropicalness = constrain(map(sys.lowerWarmCore,0.75,0,0,1),0,1);
 
     sys.organization *= 100;
-    if(!lnd && SST < 28.3) sys.organization += sq(map(SST,20,29,0,1,true))*2.9*tropicalness;
+    if(!lnd && SST < 28.3) sys.organization += sq(map(SST,20,29,0,1,true))*2.88*tropicalness;
     if(!lnd && sys.organization<40) sys.organization += lerp(0,3,nontropicalness);
     // if(lnd) sys.organization -= pow(10,map(lnd,0.5,1,-3,1));
     // if(lnd && sys.organization<70 && moisture>0.3) sys.organization += pow(5,map(moisture,0.3,0.5,-1,1,true))*tropicalness;
     sys.organization -= pow(2,4-((HEIGHT-sys.basin.hemY(sys.pos.y))/(HEIGHT*0.01)));
-    if (sys.organization < 78) {
+    if (sys.organization < 68) {
         sys.organization -= (pow(map(sys.depth,0,1,1.17,1.31),shear)-1)*map(sys.depth,0,1,4.7,1.2);
         sys.organization -= map(moisture,0,0.65,3,0,true)*shear;
     }
@@ -859,9 +860,10 @@ STORM_ALGORITHM.defaults.core = function(sys,u){
         sys.organization -= map(moisture*1.5,0,0.65,3,0,true)*shear*0.9;
     }
     if(!lnd && SST>=20 && SST<24 && Math.round(random(0,8)) == 7) sys.organization += (pow(10*(moisture-moisture/2),2.4)/9.3) - shear*1.15;
-    if(!lnd && SST>=24 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.4)/9.37) - shear*1.15 + (SST/12)/2.65;
-    if(!lnd && SST>=24 && sys.organization >= 50 && sys.organization < 85) sys.organization += (pow(10*(moisture-moisture/(1.69)),2.5)/9.2)- shear*1.05 + (SST/12)/2.5;
-    if(!lnd && SST>=24 && sys.organization >= 85) sys.organization += (pow(10*(moisture-moisture/(1.6)),2.7)/9.2) - shear*0.8 + (SST/12)/2.5;
+    if(!lnd && SST>=24 && SST<25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.18) - shear*1.2 + (SST/12)/2.6;
+    if(!lnd && SST>=25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.15) - shear*1.2 + (SST/12)/2.62;
+    if(!lnd && SST>=24 && sys.organization >= 50 && sys.organization < 85) sys.organization += (pow(10*(moisture-moisture/(1.69)),2.7)/9.1)- shear*1 + (SST/12)/2.45;
+    if(!lnd && SST>=24 && sys.organization >= 85) sys.organization += (pow(10*(moisture-moisture/(1.6)),2.82)/9.1) - shear*0.8 + (SST/12)/2.4;
     sys.organization += sq(map(moisture,0.6,1,0,1,true))*4;
     if(sys.organization > 35 && Math.round(random(1,150 - shear*3 + sys.organization/10)) == 2) sys.organization -= random(4,12); // EWRC Potential
     if(Math.round(random(1,140 - shear*3) == 2)) sys.organization -= random(1.5,5); // General convective issues and etc.

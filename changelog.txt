@@ -1,5 +1,11 @@
 About: A p5.js tropical cyclone simulation game
 
+v0.2.0: Many changes:
+
++ Much tweaking on steering (influencing the shear of course) and some on moisture
++ Improved storm algorithm
++ Some other changes
+
 v0.1.1: Some changes:
 + Tweaked spawn rates and location, and added a function which allows non-tropical lows to form deeper down, and lows can form off-season now
 + Minimally tweaked climate, SSTs and SST-Anomalies
