@@ -32,9 +32,9 @@ ACTIVE_ATTRIBS[SIM_MODE_EXPERIMENTAL] = [
 // ---- Spawn Rules ---- //
 
 function ifJetstreamBound(b,x) {
-    if (Math.round(random(1,9) == 1)) return b.hemY(random(HEIGHT*0.63,HEIGHT*0.67));
-    if (Math.round(random(1,9) == 1)) return b.hemY(random(HEIGHT*0.67,HEIGHT*0.78));
-    else return b.hemY(b.env.get("jetstream",x,0,b.tick)+random(-75,75));
+    if (Math.round(random(1,9) == 2)) return b.hemY(random(HEIGHT*0.63,HEIGHT*0.67));
+    if (Math.round(random(1,9) == 2)) return b.hemY(random(HEIGHT*0.67,HEIGHT*0.81));
+    return b.hemY(b.env.get("jetstream",x,0,b.tick)+random(-75,75));
 }
 
 const SPAWN_RULES = {};
@@ -172,12 +172,12 @@ SPAWN_RULES.defaults.archetypes = {
 
 SPAWN_RULES.defaults.doSpawn = function(b){
     // tropical waves
-    if(random()<0.0125*sq((seasonalSine(b.tick)+1.01)/2)) b.spawnArchetype('tw');
+    if(random()<0.012*sq((seasonalSine(b.tick)+1.01)/2)) b.spawnArchetype('tw');
     if(Math.round(random(1, 730)) == 2) b.spawnArchetype('tw');
 
     // extratropical cyclones
     if(random()<0.01-0.002*seasonalSine(b.tick)) b.spawnArchetype('ex');
-    if(Math.round(random(1, 730)) == 2) b.spawnArchetype('ex');
+    if(Math.round(random(1, 690)) == 2) b.spawnArchetype('ex');
 };
 
 // -- Normal Mode -- //
@@ -744,7 +744,7 @@ ENV_DEFS.defaults.moisture = {
     version: 0,
     mapFunc: (u,x,y,z)=>{
         let v = u.noise(0);
-        v = v*1.1;
+        v = v*1.05;
         let s = seasonalSine(z);
         let l = land.get(x,u.basin.hemY(y));
         let pm = u.modifiers.polarMoisture;
@@ -846,24 +846,20 @@ STORM_ALGORITHM.defaults.core = function(sys,u){
     let nontropicalness = constrain(map(sys.lowerWarmCore,0.75,0,0,1),0,1);
 
     sys.organization *= 100;
-    if(!lnd && SST < 28.3) sys.organization += sq(map(SST,20,29,0,1,true))*2.88*tropicalness;
+    if(!lnd && SST < 28.3) sys.organization += sq(map(SST,20,29,0,1,true))*2.5*tropicalness;
     if(!lnd && sys.organization<40) sys.organization += lerp(0,3,nontropicalness);
     // if(lnd) sys.organization -= pow(10,map(lnd,0.5,1,-3,1));
     // if(lnd && sys.organization<70 && moisture>0.3) sys.organization += pow(5,map(moisture,0.3,0.5,-1,1,true))*tropicalness;
     sys.organization -= pow(2,4-((HEIGHT-sys.basin.hemY(sys.pos.y))/(HEIGHT*0.01)));
-    if (sys.organization < 68) {
-        sys.organization -= (pow(map(sys.depth,0,1,1.17,1.31),shear)-1)*map(sys.depth,0,1,4.7,1.2);
-        sys.organization -= map(moisture,0,0.65,3,0,true)*shear;
-    }
-    else {
-        sys.organization -= (pow(map(sys.depth,0,1,1.17,1.31),shear*0.9)-1)*map(sys.depth,0,1,4.7,1.2);
-        sys.organization -= map(moisture*1.5,0,0.65,3,0,true)*shear*0.9;
-    }
-    if(!lnd && SST>=20 && SST<24 && Math.round(random(0,8)) == 7) sys.organization += (pow(10*(moisture-moisture/2),2.4)/9.3) - shear*1.15;
-    if(!lnd && SST>=24 && SST<25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.18) - shear*1.2 + (SST/12)/2.6;
-    if(!lnd && SST>=25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.15) - shear*1.2 + (SST/12)/2.62;
+    sys.organization -= (pow(map(sys.depth,0,1,1.17,1.31),shear)-1)*map(sys.depth,0,1,4.7,1.2);
+    sys.organization -= map(moisture,0,0.65,3,0,true)*(shear*1.1);
+    if(!lnd && SST>=20 && SST<24 && Math.round(random(0,8)) == 7) sys.organization += (pow(10*(moisture-moisture/2),2.4)/9.16) - shear*1.2;
+    if(!lnd && SST>=24 && SST<25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.16) - shear*1.2 + (SST/12)/2.5;
+    if(!lnd && SST>=25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.15) - shear*1.2 + (SST/12)/2.5;
     if(!lnd && SST>=24 && sys.organization >= 50 && sys.organization < 85) sys.organization += (pow(10*(moisture-moisture/(1.69)),2.7)/9.1)- shear*1 + (SST/12)/2.45;
-    if(!lnd && SST>=24 && sys.organization >= 85) sys.organization += (pow(10*(moisture-moisture/(1.6)),2.82)/9.1) - shear*0.8 + (SST/12)/2.4;
+    if(!lnd && SST>=24 && sys.organization >= 85) sys.organization += (pow(10*(moisture-moisture/(1.6)),2.82)/9.1) - shear*0.81 + (SST/12)/2.4;
+    if(!lnd && sys.organization < 68) sys.organization += moisture/5.8;
+    if(!lnd && sys.organization >= 68) sys.organization += moisture/4.9;
     sys.organization += sq(map(moisture,0.6,1,0,1,true))*4;
     if(sys.organization > 35 && Math.round(random(1,150 - shear*3 + sys.organization/10)) == 2) sys.organization -= random(4,12); // EWRC Potential
     if(Math.round(random(1,140 - shear*3) == 2)) sys.organization -= random(1.5,5); // General convective issues and etc.

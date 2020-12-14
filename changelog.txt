@@ -1,5 +1,11 @@
 About: A p5.js tropical cyclone simulation game
 
+v0.2.1: Surprising change:
+
++ Drastically improved the storm algorithm
+
+The steering will be the main focus unless something gets unveiled about the storm algorithm
+
 v0.2.0: Many changes:
 
 + Much tweaking on steering (influencing the shear of course) and some on moisture
