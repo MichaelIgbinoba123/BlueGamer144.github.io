@@ -1,5 +1,9 @@
 About: A p5.js tropical cyclone simulation game
 
+v0.2.1b: 
+
++ Debuffed moisture
+
 v0.2.1: Surprising change:
 
 + Drastically improved the storm algorithm

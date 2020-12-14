@@ -819,8 +819,8 @@ STORM_ALGORITHM.defaults.steering = function(sys,vec,u){
     let ll = u.f("LLSteering");
     let ul = u.f("ULSteering");
     let d = sqrt(sys.depth);
-    let x = lerp(ll.x,ul.x,d)*0.9;       // Deeper systems follow upper-level steering more and lower-level steering less
-    let y = lerp(ll.y,ul.y,d)*0.9;
+    let x = lerp(ll.x,ul.x,d)*0.85;       // Deeper systems follow upper-level steering more and lower-level steering less
+    let y = lerp(ll.y,ul.y,d)*0.85;
     vec.set(x,y);
 };
 
@@ -853,13 +853,13 @@ STORM_ALGORITHM.defaults.core = function(sys,u){
     sys.organization -= pow(2,4-((HEIGHT-sys.basin.hemY(sys.pos.y))/(HEIGHT*0.01)));
     sys.organization -= (pow(map(sys.depth,0,1,1.17,1.31),shear)-1)*map(sys.depth,0,1,4.7,1.2);
     sys.organization -= map(moisture,0,0.65,3,0,true)*(shear*1.1);
-    if(!lnd && SST>=20 && SST<24 && Math.round(random(0,8)) == 7) sys.organization += (pow(10*(moisture-moisture/2),2.4)/9.16) - shear*1.2;
-    if(!lnd && SST>=24 && SST<25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.16) - shear*1.2 + (SST/12)/2.5;
+    if(!lnd && SST>=20 && SST<24 && Math.round(random(0,8)) == 7) sys.organization += (pow(10*(moisture-moisture/2),2.4)/9.18) - shear*1.2;
+    if(!lnd && SST>=24 && SST<25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.18) - shear*1.2 + (SST/12)/2.55;
     if(!lnd && SST>=25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.15) - shear*1.2 + (SST/12)/2.5;
     if(!lnd && SST>=24 && sys.organization >= 50 && sys.organization < 85) sys.organization += (pow(10*(moisture-moisture/(1.69)),2.7)/9.1)- shear*1 + (SST/12)/2.45;
     if(!lnd && SST>=24 && sys.organization >= 85) sys.organization += (pow(10*(moisture-moisture/(1.6)),2.82)/9.1) - shear*0.81 + (SST/12)/2.4;
-    if(!lnd && sys.organization < 68) sys.organization += moisture/5.8;
-    if(!lnd && sys.organization >= 68) sys.organization += moisture/4.9;
+    if(!lnd && sys.organization < 68) sys.organization += moisture/7;
+    if(!lnd && sys.organization >= 68) sys.organization += moisture/6;
     sys.organization += sq(map(moisture,0.6,1,0,1,true))*4;
     if(sys.organization > 35 && Math.round(random(1,150 - shear*3 + sys.organization/10)) == 2) sys.organization -= random(4,12); // EWRC Potential
     if(Math.round(random(1,140 - shear*3) == 2)) sys.organization -= random(1.5,5); // General convective issues and etc.
