@@ -846,29 +846,29 @@ STORM_ALGORITHM.defaults.core = function(sys,u){
     let nontropicalness = constrain(map(sys.lowerWarmCore,0.75,0,0,1),0,1);
 
     sys.organization *= 100;
-    if(!lnd && SST < 28.3) sys.organization += sq(map(SST,20,29,0,1,true))*2.35*tropicalness;
+    if(!lnd && SST < 28.3) sys.organization += sq(map(SST,20,29,0,1,true))*(2.5+(constrain(log(moisture),-0.5,0)))*tropicalness;
     if(!lnd && sys.organization<40) sys.organization += lerp(0,3,nontropicalness);
     // if(lnd) sys.organization -= pow(10,map(lnd,0.5,1,-3,1));
     // if(lnd && sys.organization<70 && moisture>0.3) sys.organization += pow(5,map(moisture,0.3,0.5,-1,1,true))*tropicalness;
     sys.organization -= pow(2,4-((HEIGHT-sys.basin.hemY(sys.pos.y))/(HEIGHT*0.01)));
     sys.organization -= (pow(map(sys.depth,0,1,1.17,1.31),shear)-1)*map(sys.depth,0,1,4.7,1.2);
     sys.organization -= map(moisture,0,0.65,3,0,true)*(shear*1.1);
-    if(!lnd && SST>=20 && SST<24 && Math.round(random(0,8)) == 7) sys.organization += 1.1*(pow(10*(moisture-moisture/2),2.4)/9.18) - shear*1.2;
-    if(!lnd && SST>=24 && SST<25.5 && sys.organization < 50) sys.organization += 1.1*(pow(10*(moisture-moisture/1.75),2.5)/9.18) - shear*1.2 + (SST/12)/2.55;
-    if(!lnd && SST>=25.5 && sys.organization < 50) sys.organization += 1.1*(pow(10*(moisture-moisture/1.75),2.5)/9.15) - shear*1.1 + (SST/12)/2.55;
-    if(!lnd && SST>=24 && sys.organization >= 50 && sys.organization < 85) sys.organization += 1.1*(pow(10*(moisture-moisture/(1.69)),2.7)/9.1)- shear + (SST/12)/2.5;
-    if(!lnd && SST>=24 && sys.organization >= 85) sys.organization += 1.1*(pow(10*(moisture-moisture/(1.6)),2.82)/9.1) - shear*0.86 + (SST/12)/2.4;
+    if(!lnd && SST>=20 && SST<24 && Math.round(random(0,8)) == 7) sys.organization += 1.1*((pow(10*(moisture-moisture/2),2.4)/9.18) - shear*1.2);
+    if(!lnd && SST>=24 && SST<25.5 && sys.organization < 50) sys.organization += 1.1*((pow(10*(moisture-moisture/1.75),2.5)/9.18) - shear*1.2) + (SST/12)/2.55;
+    if(!lnd && SST>=25.5 && sys.organization < 50) sys.organization += 1.1*((pow(10*(moisture-moisture/1.75),2.5)/9.15) - shear*1.1) + (SST/12)/2.55;
+    if(!lnd && SST>=24 && sys.organization >= 50 && sys.organization < 85) sys.organization += 1.1*((pow(10*(moisture-moisture/(1.69)),2.7)/9.1)- shear) + (SST/12)/2.5;
+    if(!lnd && SST>=24 && sys.organization >= 85) sys.organization += 1.1*((pow(10*(moisture-moisture/(1.6)),2.82)/9.1) - shear*0.86) + (SST/12)/2.4;
     if(!lnd && sys.organization < 68) sys.organization += moisture/7;
     if(!lnd && sys.organization >= 68) sys.organization += moisture/6;
-    sys.organization += sq(map(moisture,0.6,1,0,1,true))*4;
+    sys.organization += sq(map(moisture,0.6,1,0,1,true))*4.2;
     if(sys.organization > 35 && Math.round(random(1,150 - shear*3 + sys.organization/10)) == 2) sys.organization -= random(4,12); // EWRC Potential
-    if(Math.round(random(1,140 - shear*4)) == 2) sys.organization -= random(1.5,5); // General convective issues and etc.
-    if(moisture < 0.5 && Math.round(random(1,75)) == 2) sys.organization -= random(1.5,6); // Convective degrade due to lower moisture
-    if(moisture < 0.3 && Math.round(random(1,55)) == 2) sys.organization -= random(1.5,6); // "          "       "   "  "     "
+    if(Math.round(random(1,140 - shear*4)) == 2) sys.organization -= random(1.5,7); // General convective issues and etc.
+    if(moisture < 0.5 && Math.round(random(1,75)) == 2) sys.organization -= random(1.5,8); // Convective degrade due to lower moisture
+    if(moisture < 0.3 && Math.round(random(1,55)) == 2) sys.organization -= random(1.5,8); // "          "       "   "  "     "
     sys.organization -= pow(1.3,20-SST)*tropicalness*1.1;
     sys.organization = constrain(sys.organization,0,100);
     if (!lnd && sys.organization < 6 && Math.round(random(1,75) == 4)) sys.kill = true;
-    else if (sys.organization < 7 && Math.round(random(1,45) == 4)) sys.kill = true;
+    else if (sys.organization < 7 && Math.round(random(1,35) == 4)) sys.kill = true;
     sys.organization /= 100;
 
     let targetPressure = 1010-25*log((lnd||SST<25)?1:map(SST,25,30,1,2))/log(1.17);
