@@ -172,12 +172,12 @@ SPAWN_RULES.defaults.archetypes = {
 
 SPAWN_RULES.defaults.doSpawn = function(b){
     // tropical waves
-    if(random()<0.012*sq((seasonalSine(b.tick)+1.01)/2)) b.spawnArchetype('tw');
-    if(Math.round(random(1, 730)) == 2) b.spawnArchetype('tw');
+    if(random()<0.011*sq((seasonalSine(b.tick)+1.01)/2)) b.spawnArchetype('tw');
+    if(Math.round(random(1, 750)) == 2) b.spawnArchetype('tw');
 
     // extratropical cyclones
     if(random()<0.01-0.002*seasonalSine(b.tick)) b.spawnArchetype('ex');
-    if(Math.round(random(1, 690)) == 2) b.spawnArchetype('ex');
+    if(Math.round(random(1, 490)) == 2) b.spawnArchetype('ex');
 };
 
 // -- Normal Mode -- //
@@ -853,11 +853,11 @@ STORM_ALGORITHM.defaults.core = function(sys,u){
     sys.organization -= pow(2,4-((HEIGHT-sys.basin.hemY(sys.pos.y))/(HEIGHT*0.01)));
     sys.organization -= (pow(map(sys.depth,0,1,1.17,1.31),shear)-1)*map(sys.depth,0,1,4.7,1.2);
     sys.organization -= map(moisture,0,0.65,3,0,true)*(shear*1.1);
-    if(!lnd && SST>=20 && SST<24 && Math.round(random(0,8)) == 7) sys.organization += (pow(10*(moisture-moisture/2),2.4)/9.18) - shear*1.2;
-    if(!lnd && SST>=24 && SST<25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.18) - shear*1.2 + (SST/12)/2.55;
-    if(!lnd && SST>=25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.15) - shear*1.2 + (SST/12)/2.5;
-    if(!lnd && SST>=24 && sys.organization >= 50 && sys.organization < 85) sys.organization += (pow(10*(moisture-moisture/(1.69)),2.7)/9.1)- shear*1 + (SST/12)/2.45;
-    if(!lnd && SST>=24 && sys.organization >= 85) sys.organization += (pow(10*(moisture-moisture/(1.6)),2.82)/9.1) - shear*0.81 + (SST/12)/2.4;
+    if(!lnd && SST>=20 && SST<24 && Math.round(random(0,8)) == 7) sys.organization += (pow(10*(moisture-moisture/2),2.4)/9.18) - shear*1.3;
+    if(!lnd && SST>=24 && SST<25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.18) - shear*1.3 + (SST/12)/2.55;
+    if(!lnd && SST>=25.5 && sys.organization < 50) sys.organization += (pow(10*(moisture-moisture/1.75),2.5)/9.15) - shear*1.2 + (SST/12)/2.55;
+    if(!lnd && SST>=24 && sys.organization >= 50 && sys.organization < 85) sys.organization += (pow(10*(moisture-moisture/(1.69)),2.7)/9.1)- shear*1.1 + (SST/12)/2.5;
+    if(!lnd && SST>=24 && sys.organization >= 85) sys.organization += (pow(10*(moisture-moisture/(1.6)),2.82)/9.1) - shear*0.83 + (SST/12)/2.4;
     if(!lnd && sys.organization < 68) sys.organization += moisture/7;
     if(!lnd && sys.organization >= 68) sys.organization += moisture/6;
     sys.organization += sq(map(moisture,0.6,1,0,1,true))*4;
@@ -865,7 +865,7 @@ STORM_ALGORITHM.defaults.core = function(sys,u){
     if(Math.round(random(1,140 - shear*3) == 2)) sys.organization -= random(1.5,5); // General convective issues and etc.
     if(moisture < 0.5 && Math.round(random(1,65) == 2)) sys.organization -= random(1.5,6); // Convective degrade due to lower moisture
     if(moisture < 0.3 && Math.round(random(1,45) == 2)) sys.organization -= random(1.5,6); // "          "       "   "  "     "
-    sys.organization -= pow(1.3,20-SST)*tropicalness;
+    sys.organization -= pow(1.3,20-SST)*tropicalness*1.1;
     sys.organization = constrain(sys.organization,0,100);
     if (!lnd && sys.organization < 6 && Math.round(random(1,75) == 4)) sys.kill = true;
     else if (sys.organization < 7 && Math.round(random(1,45) == 4)) sys.kill = true;

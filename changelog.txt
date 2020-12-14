@@ -1,4 +1,9 @@
 About: A p5.js tropical cyclone simulation game
+Based on and off Cyclone Sim v0.3.3 (2020-08-19) by MonsoonJr99
+
+v0.2.1c Experimental:
+
++ Fixing the algorithm and improving it
 
 v0.2.1b: 
 
@@ -6,9 +11,9 @@ v0.2.1b:
 
 v0.2.1: Surprising change:
 
-+ Drastically improved the storm algorithm
++ Improved storm algorithm
 
-The steering will be the main focus unless something gets unveiled about the storm algorithm
+The steering will be the main focus unless something gets unveiled about the storm algorithm (and it did!)
 
 v0.2.0: Many changes:
 
@@ -24,5 +29,4 @@ v0.1.1: Some changes:
 v0.1.0: Replaced Normal with Semi-Realisic, aiming at less excessive dependence on sea surface temperatures from the Storm algorithm, which
 is modified here, including some random EWRCs. Also took many sea suface temperature anomalies and steering settings from Magicdrizzles fork.
 
-Based on Cyclone Sim v0.3.3 (2020-08-19) by MonsoonJr99
     
