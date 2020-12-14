@@ -1,7 +1,12 @@
 About: A p5.js tropical cyclone simulation game
 
-v0.1: Replaced Normal with Semi-Realisic, aiming at less excessive dependence on sea surface temperatures from the Storm algorithm, which
-it modified here. Also took many sea suface temperature anomalies and steering settings from Magicdrizzles fork.
+v0.1.1: Some changes:
++ Tweaked spawn rates and location, and added a function which allows non-tropical lows to form deeper down, and lows can form off-season now
++ Minimally tweaked climate, SSTs and SST-Anomalies
++ Enhanced the algorithm with constrains
+
+v0.1.0: Replaced Normal with Semi-Realisic, aiming at less excessive dependence on sea surface temperatures from the Storm algorithm, which
+is modified here, including some random EWRCs. Also took many sea suface temperature anomalies and steering settings from Magicdrizzles fork.
 
 Based on Cyclone Sim v0.3.3 (2020-08-19) by MonsoonJr99
     
