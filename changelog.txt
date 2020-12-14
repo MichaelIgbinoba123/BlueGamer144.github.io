@@ -1,6 +1,10 @@
 About: A p5.js tropical cyclone simulation game
 Based on and off Cyclone Sim v0.3.3 (2020-08-19) by MonsoonJr99
 
+v0.2.2:
+
++ Improved algorithm ¯\_(ツ)_/¯
+
 v0.2.1e Exp. :
 v0.2.1d Exp. :
 
