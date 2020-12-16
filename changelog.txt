@@ -1,6 +1,12 @@
 About: A p5.js tropical cyclone simulation game
 Based on and off Cyclone Sim v0.3.3 (2020-08-19) by MonsoonJr99
 
+v0.3.0:
+
++ Improved algorithm, stronger storms don't need that much of high SSTs anymore if other conditions are right
++ Changed spawnrates
++ Tweaked moisture, steering and climate
+
 v0.2.2:
 
 + Improved algorithm ¯\_(ツ)_/¯

@@ -1,5 +1,5 @@
 const TITLE = "Semi-Realistic Cyclone Simulator";
-const VERSION_NUMBER = "0.2.2";
+const VERSION_NUMBER = "0.3.0";
 
 const SAVE_FORMAT = 6;  // Format #6 in use starting in v0.2
 const EARLIEST_COMPATIBLE_FORMAT = 0;
@@ -7,7 +7,7 @@ const ENVDATA_COMPATIBLE_FORMAT = 0;
 
 const WIDTH = 960; // 16:9 aspect ratio
 const HEIGHT = 540;
-const DIAMETER = 20;    // Storm icon diameter
+const DIAMETER = 21;    // Storm icon diameter
 const PERLIN_ZOOM = 100;    // Resolution for perlin noise
 const TICK_DURATION = 3600000;  // How long in sim time does a tick last in milliseconds (1 hour)
 const ADVISORY_TICKS = 6;    // Number of ticks per advisory
