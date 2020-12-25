@@ -1,9 +1,9 @@
 About: A p5.js tropical cyclone simulation game
-Based on and of Cyclone Sim v0.3.5 (2020-12-25) by MonsoonJr99, all credits go to him
+Based on and off Cyclone Sim v0.3.5 (2020-12-25) by MonsoonJr99, all credits go to him
 
 v0.3.0c:
 
-+ Now based of v0.3.5 (2020-12-25) Cyclone Sim by MonsoonJr99
++ Now based off v0.3.5 (2020-12-25) Cyclone Sim by MonsoonJr99
 
 v0.3.0b:
 
