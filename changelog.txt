@@ -1,6 +1,13 @@
 About: A p5.js tropical cyclone simulation game
 Based on and off Cyclone Sim v0.3.6 (2020-12-26) by MonsoonJr99, all credits go to him
 
+v0.4.1
+
++ Steering Tweaks
++ Minor strengthening of the effects of shear
++ Fixed EX spawns (my "ifJetstreamBound" function had wrong "bracketing")
++ Spawn rates altered
+
 v0.4:
 
 + Newer storm algorithm
