@@ -15,7 +15,7 @@ const YEAR_LENGTH = 365.2425*24;        // The length of a year in ticks; used f
 const NHEM_DEFAULT_YEAR = moment.utc().year();
 const SHEM_DEFAULT_YEAR = moment.utc().month() < 6 ? NHEM_DEFAULT_YEAR : NHEM_DEFAULT_YEAR+1;
 const DEPRESSION_LETTER = "H";
-const WINDSPEED_ROUNDING = 1;
+const WINDSPEED_ROUNDING = 0.1;
 const MAP_DEFINITION = 2;   // normal scaler for the land map
 const MAP_TYPES = [     // Land generation controls for different map types
     {   // "Two Continents" map type
@@ -135,7 +135,7 @@ const ENV_LAYER_TILE_SIZE = 20;
 const NC_OFFSET_RANDOM_FACTOR = 4096;
 const ACE_WIND_THRESHOLD = 34;
 const ACE_DIVISOR = 10000;
-const DAMAGE_DIVISOR = 1000;
+const DAMAGE_DIVISOR = 800;
 const ENVDATA_NOT_FOUND_ERROR = "envdata-not-found";
 const LOADED_SEASON_REQUIRED_ERROR = "loaded-season-required";
 const LOAD_MENU_BUTTONS_PER_PAGE = 6;
